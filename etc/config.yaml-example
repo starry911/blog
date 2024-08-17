@@ -1,0 +1,37 @@
+mysql:
+  Host: "127.0.0.1"
+  Port: 3307
+  Username: "root"
+  Password: "123456"
+  Database: "test_golang"
+  Charset: 'utf8mb4'
+  Pool: 10
+
+redis:
+  Host: "127.0.0.1"
+  Port: 6379
+  Password: "123456"
+  Database: 0
+  Pool: 15 #连接池 默认为4倍cpu数
+  Conn: 10 #最小空闲连接数
+
+server:
+  Host: "0.0.0.0"
+  Port: "7360"
+  Mode: "debug" # gin的运行模式 debug, release, test
+
+logs:
+  Level: 'debug' # 开发时推荐使用 "debug" 或者 "info" ，生产环境下使用 "error"
+  Type: 'daily' #"single" 独立的文件  "daily" 按照日期每日一个
+  FileName: 'D:/WorkSoftware/GoWork/MyCode/blog/logs/logs.log'
+  MaxSize: 64 # 保存最大单位 M
+  MaxBackup: 30 #最多保存日志文件数，0 为不限，MaxAge 到了还是会删
+  MaxAge: 7 #最多保存多少天
+  Compress: false #是否压缩
+
+coroutine:
+  PollNum: 100000 # 启动的协程池数量
+
+jwt:
+  Secret: "kBedN4aOLRVih0GGQUcVSEPpyVBfM4vBS8BayKKkz6TcuboMAzpOkyDH2THCInl9" # jwt 密钥
+  TTL: 86400 # jwt 过期时间，单位秒
