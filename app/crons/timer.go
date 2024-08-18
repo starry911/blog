@@ -2,7 +2,6 @@ package crons
 
 import (
 	"blog/app/crons/jobs"
-	"blog/pkg/enum"
 	"github.com/robfig/cron"
 )
 
@@ -39,13 +38,13 @@ func (t *Timer) CronTasks() error {
 		Spec string
 		Cmd  func()
 	}{
-		{
-			Name: "测试定时任务执行",
-			Spec: func() string {
-				return enum.CronEverySecond
-			}(),
-			Cmd: t.job.TestJob,
-		},
+		//{
+		//	Name: "测试定时任务执行",
+		//	Spec: func() string {
+		//		return enum.CronEverySecond
+		//	}(),
+		//	Cmd: t.job.TestJob,
+		//},
 	} {
 		if err := t.cron.AddFunc(j.Spec, j.Cmd); err != nil {
 			return err

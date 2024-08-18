@@ -1,7 +1,7 @@
 package dao
 
 type InterfaceDao interface {
-	ITestDao
+	IAdminUsers
 }
 
 var IDao InterfaceDao

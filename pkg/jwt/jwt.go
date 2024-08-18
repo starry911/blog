@@ -15,14 +15,14 @@ var TTL = time.Second * time.Duration(config.GetConf().Jwt.TTL)
 
 // Claims 用来生成token的结构体
 type Claims struct {
-	Param string `json:"param"`
+	Param int64 `json:"param"`
 	jwt.RegisteredClaims
 }
 
 // CreateToken 创建token
-func CreateToken(Param string) (string, error) {
+func CreateToken(UserId int64) (string, error) {
 	c := Claims{
-		Param, // 自定义字段，一般是用户的唯一标识
+		UserId, // 自定义字段，一般是用户的唯一标识
 		jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(TTL)), // 过期时间
 			Issuer:    "blog-jwt",                              // 签发人
@@ -35,16 +35,16 @@ func CreateToken(Param string) (string, error) {
 }
 
 // ParseToken 解析token
-func ParseToken(tokenStr string) (string, error) {
+func ParseToken(tokenStr string) (int64, error) {
 	token, err := jwt.ParseWithClaims(tokenStr, &Claims{}, func(token *jwt.Token) (i interface{}, err error) {
 		return Secret, nil
 	})
 	if err != nil {
-		return "", err
+		return 0, err
 	}
 	// 校验token
 	if claims, ok := token.Claims.(*Claims); ok && token.Valid {
 		return claims.Param, nil
 	}
-	return "", errors.New("令牌无效")
+	return 0, errors.New("令牌无效")
 }

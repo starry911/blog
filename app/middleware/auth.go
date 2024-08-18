@@ -12,10 +12,10 @@ import (
 // JwtAuth jwt认证中间件
 func JwtAuth(key string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.Request.Header.Get("token")
+		token := c.Request.Header.Get("Token")
 
 		if token == "" {
-			response.Fail(enum.InvalidArgument, "token 不能为空！").ToJson(c)
+			response.Fail(enum.InvalidArgument, "您还未登录呢！").ToJson(c)
 			c.Abort()
 			return
 		}
@@ -29,7 +29,7 @@ func JwtAuth(key string) gin.HandlerFunc {
 		}
 
 		// 单点登录检查，key：为存储在缓存中的键名
-		oldToken := cache2.CH.RedisConn.Get(fmt.Sprintf("%s:%s", key, userID)).Val()
+		oldToken := cache2.CH.RedisConn.Get(fmt.Sprintf("%s:%d", key, userID)).Val()
 		if oldToken != token {
 			response.Fail(enum.TokenFailure, "您的帐号已在别的地方登录，您被迫退出！若不是您本人操作，请注意帐号安全！").ToJson(c)
 			c.Abort()
