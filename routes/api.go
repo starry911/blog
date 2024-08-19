@@ -18,9 +18,12 @@ func RegisterApiRoutes(router *gin.Engine) {
 		// 加载Jwt授权中间件
 		admin.Use(middleware.JwtAuth(enum.JwtKey))
 
+		// 登录用户模块
 		admin.GET("/logout", controller.Admin.LogoutController)
 		admin.GET("/user-info", controller.Admin.UserInfoController)
 		admin.PUT("/set-user-info", controller.Admin.SetUserInfoController)
 		admin.PUT("/set-user-password", controller.Admin.SetUserPasswordController)
+
+		// 文章模块
 	}
 }
