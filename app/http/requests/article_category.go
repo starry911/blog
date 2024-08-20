@@ -14,14 +14,14 @@ type ArticleCategoryListResp struct {
 }
 
 type ArticleCategoryAddReq struct {
-	Name  string `json:"name"`            // 分类名称
-	Alias string `json:"alias,omitempty"` // 分类别名
+	Name  string `json:"name"`  // 分类名称
+	Alias string `json:"alias"` // 分类别名
 }
 
 type ArticleCategoryEditReq struct {
-	ID    int64  `json:"id"`              // 分类id
-	Name  string `json:"name"`            // 分类名称
-	Alias string `json:"alias,omitempty"` // 分类别名
+	ID    int64  `json:"id"`    // 分类id
+	Name  string `json:"name"`  // 分类名称
+	Alias string `json:"alias"` // 分类别名
 }
 
 type ArticleCategoryDelReq struct {

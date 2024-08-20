@@ -9,6 +9,14 @@ import (
 	"time"
 )
 
+// GetOffset 自动计算Offset
+func GetOffset(page int, perPage int) int {
+	if page < 1 {
+		page = 1
+	}
+	return (page - 1) * perPage
+}
+
 // Md5Password 生成密码
 func Md5Password(password string, salt string) string {
 	srcCode := md5.Sum([]byte(password + salt))
@@ -50,4 +58,13 @@ func GetIPAddress(req *http.Request) string {
 		ip = ip[:idx]
 	}
 	return ip
+}
+
+// VerifyTimeStr 验证时间格式
+func VerifyTimeStr(layout string, value string) bool {
+	_, err := time.ParseInLocation(layout, value, time.Local)
+	if err != nil {
+		return false
+	}
+	return true
 }

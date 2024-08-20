@@ -24,6 +24,20 @@ func RegisterApiRoutes(router *gin.Engine) {
 		admin.PUT("/set-user-info", controller.Admin.SetUserInfoController)
 		admin.PUT("/set-user-password", controller.Admin.SetUserPasswordController)
 
+		// 文章分类模块
+		admin.GET("/article-category-list", controller.Admin.ArticleCategoryListController)
+		admin.POST("/article-category-add", controller.Admin.ArticleCategoryAddController)
+		admin.PUT("/article-category-edit", controller.Admin.ArticleCategoryEditController)
+		admin.DELETE("/article-category-del", controller.Admin.ArticleCategoryDelController)
+		admin.GET("/article-category-select", controller.Admin.ArticleCategorySelectController)
+
+		// 文章标签模块
+		admin.GET("/article-tags-list", controller.Admin.ArticleTagsListController)
+		admin.DELETE("/article-tags-del", controller.Admin.ArticleTagsDelController)
+		admin.GET("/article-tags-select", controller.Admin.ArticleTagsSelectController)
+
 		// 文章模块
+		admin.GET("/article-list", controller.Admin.ArticleListController)
+
 	}
 }

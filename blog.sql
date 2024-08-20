@@ -11,7 +11,7 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 19/08/2024 18:56:38
+ Date: 20/08/2024 16:12:17
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `admin_users`  (
 -- ----------------------------
 -- Records of admin_users
 -- ----------------------------
-INSERT INTO `admin_users` VALUES (1, 'Starry', 'Starry', '', '4759cfc505e142307fcda7211cd74496', 'tVJZuG', '127.0.0.1', '2024-08-18 14:36:44', '2024-08-18 16:22:05', '2024-08-18 14:36:45', NULL);
+INSERT INTO `admin_users` VALUES (1, 'Starry', 'Starry', '', '4759cfc505e142307fcda7211cd74496', 'tVJZuG', '127.0.0.1', '2024-08-20 11:14:50', '2024-08-18 16:22:05', '2024-08-20 11:14:51', NULL);
 
 -- ----------------------------
 -- Table structure for article
@@ -80,7 +80,8 @@ CREATE TABLE `article_category`  (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` datetime NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `alias_unique`(`alias` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文章分类表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------

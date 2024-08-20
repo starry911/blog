@@ -105,3 +105,14 @@ func Fail(code int, message string, data ...interface{}) *JsonResponse {
 		Data:    r,
 	}
 }
+
+// Pagination 返回分页数据
+func Pagination(message string, total int64, list interface{}) *JsonResponse {
+	// 组合数据
+	data := map[string]interface{}{
+		"total": total,
+		"list":  list,
+	}
+
+	return Success(message, data)
+}
