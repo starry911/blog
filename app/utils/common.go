@@ -68,3 +68,8 @@ func VerifyTimeStr(layout string, value string) bool {
 	}
 	return true
 }
+
+// 截取uuid中的横线
+func UUIDGetHex(uuid string) string {
+	return strings.ReplaceAll(uuid, "-", "")
+}

@@ -51,3 +51,23 @@ func (c *BaseController) ArticleTagsSelectController(cxt *gin.Context) {
 	resp.ToJson(cxt)
 	return
 }
+
+func (c *BaseController) ArticleTagsAddController(cxt *gin.Context) {
+	var req requests.ArticleTagsAddReq
+
+	// 将请求参数绑定到结构体里面
+	if err := cxt.ShouldBind(&req); err != nil {
+		response.Fail(enum.InvalidArgument, "参数获取失败！").ToJson(cxt)
+		return
+	}
+
+	if req.Name == "" {
+		response.Fail(enum.InvalidArgument, "标签不能为空！").ToJson(cxt)
+		return
+	}
+
+	// 调用服务层
+	resp := Svc.Admin.ArticleTagsAddService(cxt, &req)
+	resp.ToJson(cxt)
+	return
+}

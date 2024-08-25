@@ -6,6 +6,8 @@ import (
 	"blog/app/utils"
 	"blog/pkg/database"
 	"context"
+	"errors"
+	"gorm.io/gorm"
 )
 
 type IArticle interface {
@@ -13,6 +15,10 @@ type IArticle interface {
 	GetArticleNumByCategory(categoryId int64) (int64, error)
 	// 查询文章列表
 	FindArticleList(req *requests.ArticleListReq) ([]*models.Article, int64, error)
+	// 根据文章标题查询
+	GetArticleByTitle(title string) (*models.Article, error)
+	// 事务添加文章
+	CreateArticle(data *models.Article, content *models.ArticleContent) error
 }
 
 func (d *Dao) GetArticleNumByCategory(categoryId int64) (int64, error) {
@@ -29,7 +35,7 @@ func (d *Dao) FindArticleList(req *requests.ArticleListReq) ([]*models.Article, 
 	sql := database.DB.MysqlConn.WithContext(ctx).Model(&models.Article{})
 
 	if req.Title != "" {
-		sql = sql.Where("title like ?", "%"+req.Title+"%")
+		sql = sql.Where("binary title like ?", "%"+req.Title+"%")
 	}
 
 	if req.CategoryId != 0 {
@@ -60,4 +66,36 @@ func (d *Dao) FindArticleList(req *requests.ArticleListReq) ([]*models.Article, 
 		return nil, 0, err
 	}
 	return list, count, nil
+}
+
+func (d *Dao) GetArticleByTitle(title string) (*models.Article, error) {
+	var article models.Article
+	err := database.DB.MysqlConn.Model(&models.Article{}).Where("binary title = ?", title).First(&article).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, nil
+	}
+
+	if err != nil {
+		return nil, err
+	}
+	return &article, nil
+}
+
+func (d *Dao) CreateArticle(data *models.Article, content *models.ArticleContent) error {
+	ctx := context.Background()
+	return database.DB.MysqlConn.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		// 添加文章
+		err := tx.Create(data).Error
+		if err != nil {
+			return err
+		}
+
+		// 添加内容
+		content.ArticleId = data.ID
+		err = tx.Create(&content).Error
+		if err != nil {
+			return err
+		}
+		return nil
+	})
 }

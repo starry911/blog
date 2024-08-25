@@ -3,7 +3,8 @@ package enum
 // ----------------全局状态码------------------
 const (
 	HttpSuccess     = 200   // 成功
-	HttpFail        = 500   // 错误
+	HttpFail        = 400   // 失败
+	HttpError       = 500   // 错误
 	InvalidArgument = 10000 // 非法参数
 	TokenFailure    = 10001 // 登录令牌失效
 )

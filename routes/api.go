@@ -33,11 +33,13 @@ func RegisterApiRoutes(router *gin.Engine) {
 
 		// 文章标签模块
 		admin.GET("/article-tags-list", controller.Admin.ArticleTagsListController)
+		admin.POST("/article-tags-add", controller.Admin.ArticleTagsAddController)
 		admin.DELETE("/article-tags-del", controller.Admin.ArticleTagsDelController)
 		admin.GET("/article-tags-select", controller.Admin.ArticleTagsSelectController)
 
 		// 文章模块
 		admin.GET("/article-list", controller.Admin.ArticleListController)
+		admin.POST("/article-add", controller.Admin.ArticleAddController)
 
 	}
 }

@@ -15,7 +15,8 @@ import (
 func (s *BaseService) ArticleCategoryListService(cxt *gin.Context, req *requests.ArticleCategoryListReq) *response.JsonResponse {
 	find, count, err := dao.IDao.FindArticleCategoryList(req)
 	if err != nil {
-		return response.Fail(enum.HttpFail, "查询失败！")
+		logger.Logger.Error(fmt.Sprintf("ArticleCategoryListService---FindArticleCategoryList---err:%v", err))
+		return response.Fail(enum.HttpError, "查询失败！")
 	}
 	list := make([]*requests.ArticleCategoryListResp, 0)
 	for _, category := range find {
@@ -41,7 +42,7 @@ func (s *BaseService) ArticleCategoryAddService(cxt *gin.Context, req *requests.
 	category1, err := dao.IDao.GetArticleCategoryByName(req.Name, 0)
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("ArticleCategoryAddService---GetArticleCategoryByName---err:%v", err))
-		return response.Fail(enum.HttpFail, "查询错误！")
+		return response.Fail(enum.HttpError, "查询错误！")
 	}
 
 	if category1 != nil {
@@ -52,7 +53,7 @@ func (s *BaseService) ArticleCategoryAddService(cxt *gin.Context, req *requests.
 	category2, err := dao.IDao.GetArticleCategoryByAlias(req.Alias, 0)
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("ArticleCategoryAddService---GetArticleCategoryByAlias---err:%v", err))
-		return response.Fail(enum.HttpFail, "查询错误！")
+		return response.Fail(enum.HttpError, "查询错误！")
 	}
 	if category2 != nil {
 		return response.Fail(enum.HttpFail, "该分类别名已经存在了！")
@@ -64,7 +65,7 @@ func (s *BaseService) ArticleCategoryAddService(cxt *gin.Context, req *requests.
 	})
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("ArticleCategoryAddService---CreateArticleCategory---err:%v", err))
-		return response.Fail(enum.HttpFail, "新增失败！")
+		return response.Fail(enum.HttpError, "新增失败！")
 	}
 	return response.Success("新增成功！")
 }
@@ -144,7 +145,7 @@ func (s *BaseService) ArticleCategorySelectService(cxt *gin.Context) *response.J
 	find, err := dao.IDao.FindArticleCategorySelect()
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("ArticleCategorySelectService---FindArticleCategorySelect---err:%v", err))
-		return response.Fail(enum.HttpFail, "查询失败！")
+		return response.Fail(enum.HttpError, "查询失败！")
 	}
 	list := make([]*requests.ArticleCategorySelectResp, 0)
 

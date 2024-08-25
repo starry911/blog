@@ -17,6 +17,7 @@ type Article struct {
 	TagIds      string    `json:"tag_ids" gorm:"tag_ids"`           // 文章标签集合，以英文逗号分割
 	Status      int64     `json:"status" gorm:"status"`             // 状态，1：显示，2：隐藏
 	ViewNum     int64     `json:"view_num" gorm:"view_num"`         // 文章浏览量
+	LikeNum     int64     `json:"like_num" gorm:"like_num"`         // 文章点赞量
 	gorm.Model
 }
 

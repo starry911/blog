@@ -22,7 +22,7 @@ func (s *BaseService) LoginService(cxt *gin.Context, req *requests.BackLoginReq)
 	user, err := dao.IDao.GetUserByAccount(req.Account)
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("LoginService---GetUserByAccount---err:%v", err))
-		return response.Fail(enum.HttpFail, "查询错误，请稍后再试！")
+		return response.Fail(enum.HttpError, "查询错误，请稍后再试！")
 	}
 	if user == nil {
 		return response.Fail(enum.HttpFail, "账户不存在！")
@@ -38,7 +38,7 @@ func (s *BaseService) LoginService(cxt *gin.Context, req *requests.BackLoginReq)
 	token, err := jwt.CreateToken(user.ID)
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("LoginService---CreateToken---err:%v", err))
-		return response.Fail(enum.HttpFail, "")
+		return response.Fail(enum.HttpError, "登录失败，请稍后再试！")
 	}
 
 	// 更新用户登录信息
@@ -50,7 +50,7 @@ func (s *BaseService) LoginService(cxt *gin.Context, req *requests.BackLoginReq)
 	})
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("LoginService---UpdateUserByParams---err:%v", err))
-		return response.Fail(enum.HttpFail, "登录失败，请稍后再试！")
+		return response.Fail(enum.HttpError, "登录失败，请稍后再试！")
 	}
 
 	// 单点登录，将登录凭证保存到redis中
@@ -128,7 +128,7 @@ func (s *BaseService) SetUserInfoService(cxt *gin.Context, req *requests.SetUser
 	err = dao.IDao.UpdateUserByParams(user.ID, updateData)
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("SetUserInfoService---UpdateUserByParams---err:%v", err))
-		return response.Fail(enum.TokenFailure, "保存失败！")
+		return response.Fail(enum.HttpError, "保存失败！")
 	}
 
 	return response.Success("保存成功！")
@@ -153,7 +153,7 @@ func (s *BaseService) SetUserPasswordService(cxt *gin.Context, req *requests.Set
 	err = dao.IDao.UpdateUserByParams(user.ID, updateData)
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("SetUserPasswordService---UpdateUserByParams---err:%v", err))
-		return response.Fail(enum.TokenFailure, "修改失败！")
+		return response.Fail(enum.HttpError, "修改失败！")
 	}
 
 	// 修改成功，将登录凭证注销，然后重新登录

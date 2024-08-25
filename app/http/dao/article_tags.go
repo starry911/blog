@@ -25,6 +25,8 @@ type IArticleTags interface {
 	GetArticleTagByName(name string) (*models.ArticleTags, error)
 	// 根据ids查询标签
 	FindArticleTagsByIdsString(ids string) ([]*models.ArticleTags, error)
+	// 添加标签
+	CreateArticleTags(tag *models.ArticleTags) error
 }
 
 func (d *Dao) FindArticleTagsList(req *requests.ArticleTagsListReq) ([]*models.ArticleTags, int64, error) {
@@ -97,4 +99,8 @@ func (d *Dao) FindArticleTagsByIdsString(ids string) ([]*models.ArticleTags, err
 		return nil, err
 	}
 	return find, nil
+}
+
+func (d *Dao) CreateArticleTags(tag *models.ArticleTags) error {
+	return database.DB.MysqlConn.Create(tag).Error
 }

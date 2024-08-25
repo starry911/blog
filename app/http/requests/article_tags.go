@@ -18,3 +18,11 @@ type ArticleTagsSelectResp struct {
 	ID   int64  `json:"id"`   // 标签id
 	Name string `json:"name"` // 标签名称
 }
+
+type ArticleTagsAddReq struct {
+	Name string `json:"name"`
+}
+
+type ArticleTagsAddResp struct {
+	ID int64 `json:"id"`
+}
